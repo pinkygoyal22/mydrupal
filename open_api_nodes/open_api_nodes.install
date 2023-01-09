@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ * Installation functions for open api nodes module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function open_api_nodes_install() {
+  $library_dir = 'libraries/swagger-ui';
+
+  if (!file_exists($library_dir)) {
+    \Drupal::messenger()->addError("Swagger UI library does not exist at $library_dir");
+  }
+
+  $files_to_check = [
+    'dist/swagger-ui.css',
+    'dist/swagger-ui-bundle.js',
+    'dist/swagger-ui-standalone-preset.js',
+  ];
+  foreach ($files_to_check as $file) {
+    $file_path = $library_dir . '/' . $file;
+    if (!file_exists($file_path)) {
+      \Drupal::messenger()->addError("Required files does not exist at $file_path");
+    }
+  }
+}

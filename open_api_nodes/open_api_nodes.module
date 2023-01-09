@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * @file
+ * module file for Swagger UI File Field Formatter.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function open_api_nodes_theme(): array {
+  return [
+    'open_api_nodes_field_item' => [
+      'variables' => [
+        'field_name' => NULL,
+        'delta' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_library_info_build().
+ */
+function open_api_nodes_library_info_build(): array {
+  $libraries = [];
+
+  $library_dir = '/libraries/swagger-ui';
+
+  $libraries['open_api_nodes.swagger_ui'] = [
+    'version' => '3.32.2',
+    'css' => [
+      'theme' => [
+        $library_dir . '/dist/swagger-ui.css' => ['minified' => TRUE],
+      ],
+    ],
+    'js' => [
+      $library_dir . '/dist/swagger-ui-bundle.js' => ['minified' => TRUE],
+      $library_dir . '/dist/swagger-ui-standalone-preset.js' => ['minified' => TRUE],
+    ],
+  ];
+  // Library definition for the Swagger UI integration files.
+  $libraries['open_api_nodes.swagger_ui_integration'] = [
+    'version' => '1.0',
+    'js' => [
+      'js/swagger-ui-formatter.js' => [],
+    ],
+    'dependencies' => [
+      'core/drupal',
+      'core/jquery',
+      'core/drupalSettings',
+      'open_api_nodes/open_api_nodes.swagger_ui',
+    ],
+  ];
+  return $libraries;
+}

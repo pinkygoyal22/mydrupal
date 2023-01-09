@@ -1,0 +1,8 @@
+name: API nodes
+type: module
+description: 'API nodes custom module.'
+dependencies:
+  - drupal:file
+package: Custom
+version: 1.0
+core_version_requirement: ^8 || ^9

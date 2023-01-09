@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - open_api_nodes # This is the name of the module we're using for this example
+name: 'API nodes'
+type: api_nodes
+description: 'Content type to create API nodes.'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true
