@@ -1,0 +1,92 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: t2
+ * Date: 9/28/17
+ * Time: 2:46 PM
+ */
+
+/**
+ * Fix to update the field errors on updb might be caused due to old updates.
+ */
+function bio_import_xml_update_9001() {
+  $fields_data = [
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_page'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_bio'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_article'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_careers'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_event'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_program'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_homepage'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_slide_show_content'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_timeline_event'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_sub_footer'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_interchangable_block'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_news'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_press'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_webform'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_product'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_the_historymakers_story_timeline'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_sponsor_event'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_sponsors'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_special_collections'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_maker_guidelines'],
+    ['entity_type' => 'comment', 'field_name' => 'comment_body', 'bundle_name' => 'comment_node_sponsors'],
+    ['entity_type' => 'taxonomy_term', 'field_name' => 'field_caption_block', 'bundle_name' => 'maker_category'],
+    ['entity_type' => 'taxonomy_term', 'field_name' => 'field_heading', 'bundle_name' => 'maker_category'],
+    ['entity_type' => 'taxonomy_term', 'field_name' => 'field_interchangeable_block_img', 'bundle_name' => 'maker_category'],
+    ['entity_type' => 'taxonomy_term', 'field_name' => 'field_sponsor_logo', 'bundle_name' => 'maker_category'],
+    ['entity_type' => 'taxonomy_term', 'field_name' => 'uc_catalog_image', 'bundle_name' => 'catalog'],
+  ];
+
+  /** @var \Drupal\Core\KeyValueStore\KeyValueFactoryInterface $key_value_factory */
+  $key_value_factory = \Drupal::service('keyvalue');
+
+  $field_map_kv_store = $key_value_factory->get('entity.definitions.bundle_field_map');
+
+  foreach ($fields_data as $field_item) {
+    $map = $field_map_kv_store->get($field_item['entity_type']);
+    unset($map[$field_item['field_name']]['bundles'][$field_item['bundle_name']]);
+    $field_map_kv_store->set($field_item['entity_type'], $map);
+  }
+}
+
+function bio_import_xml_schema() {
+    $fields = array();
+    $tableName = 'migrate_thm_storage';
+
+    $fields['u_hm_id'] = [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'description' => 'HM ID',
+    ];
+
+    $fieldNames = 'HM_ID, nid, Accession, BirthCity, BirthState, BirthCountry, DateBirth,
+    Dates_of_Sessions, DateDeath, MaritalStatus, Gender, Favorite_Color, Favorite_Food,
+    Favorite_Quote, Favorite_Season, Favorite_VacationSpot, PreferredName, NameFirst,
+    NameMiddle, NameLast, BiographyLong, DescriptionShort, Category, Location_Flash_File,
+    Location_Flash_Title, Employment_for, Occupation, OccupationCategories, Organizations,
+    Sponsor, Schools_for, BiographyLongWords, ImageBio, ImageArchive01, ImageArchive02,
+    BiographyLongPath, SpeakersBureauYesNo, SpeakersBureauPreferredAudience,
+    SpeakersBureauHonorarium, SpeakersBureauAvailability, SpeakersBureauNotes, RegionCity,
+    RegionState, TimeStampModificationAny, SponsorLogo, SponsorURL, InterviewPDF1,
+    InterviewPDF2, LinkToTHMDA, LinkToSMDA, DAStoryList, DASession, DACaption, DAStory,
+    DATape, DATitle, DAUrl, DATimingPair, new, timestamp, INDL';
+
+    $fieldNamesAsArray = explode(', ', $fieldNames);
+
+    foreach ($fieldNamesAsArray as $field) {
+        $fields[trim(strtolower($field))] = [
+            'type' => 'text',
+            'not null' => FALSE,
+        ];
+    }
+
+    $schema[$tableName] = [
+        'fields' => $fields,
+        'primary key' => [ 'u_hm_id' ],
+    ];
+
+    return $schema;
+}

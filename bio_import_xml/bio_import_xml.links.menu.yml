@@ -1,0 +1,6 @@
+bio_import_xml.admin:
+  title: 'Import Biographies'
+  description: 'Manage Biography imports'
+  parent: system.admin_config_content
+  route_name: bio_import_xml.admin_migration_form
+  weight: 100

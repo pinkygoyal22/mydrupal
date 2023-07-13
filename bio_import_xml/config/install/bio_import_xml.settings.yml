@@ -1,0 +1,9 @@
+
+bio_import_xml:
+  fm_path:  '/var/www/drupalvm/fm_import/'
+  fm_files_path: '/var/www/drupalvm/fm_import/files'
+  original: 'Weekly_HM_Bios2.xml'
+  clean:    'Weekly_HM_Bios2_fx.xml'
+  notify_email: 'webmaster@thehistorymakers.org'
+  digital_archive_url: 'https://dl.thehistorymakers.org/catalog/?id='
+  rebuild_ingestion_table: 0

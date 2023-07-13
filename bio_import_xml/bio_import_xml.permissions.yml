@@ -1,0 +1,4 @@
+
+administer thm import:
+  title: 'Manage Biography Imports'
+  description: 'Execute the Biography XML Import Process'

@@ -1,0 +1,6 @@
+name: Bio XML Migration
+description: Custom migration module for migrating biography xml data into a Drupal 8 site.
+package: Migrations
+type: module
+core: 8.x
+core_version_requirement: ^8 || ^9

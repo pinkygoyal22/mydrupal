@@ -1,0 +1,9 @@
+
+bio_import_xml.admin_migration_form:
+  path: '/admin/settings/thm-migrate/{reset}'
+  defaults:
+    _form: '\Drupal\bio_import_xml\Form\BioXMLMigrationForm'
+    _title: 'Import Biographies from XML'
+    reset: 'no-reset'
+  requirements:
+    _permission: 'administer site configuration'
