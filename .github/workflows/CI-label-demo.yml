@@ -1,4 +1,4 @@
-name: CI
+name: CI - run on a label 'bug'
 
 on:
   pull_request:
